@@ -1,0 +1,35 @@
+<h1><%= button_text %></h1>
+
+<%= flash_helper %>
+
+<form action='<%= url %>' method='post'>
+  <%= authorize_form %>
+  
+  <% if action == :edit %>
+    <input 
+      type='hidden'
+      name='_method'
+      value='patch'>
+  <% end %>
+  
+  <label>Title
+    <input 
+      type='text'
+      name='goal[title]'
+      value='<%= goal.title %>'>
+  </label>
+  <br>
+  
+  <label>Completed?
+    <input
+      type='checkbox'
+      name='goal[completed]'
+      <%= "checked" if goal.completed %>>
+  </label>
+  <br>
+  
+  <input
+    type='submit'
+    value='<%= button_text %>'>
+  
+</form>

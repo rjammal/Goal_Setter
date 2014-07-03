@@ -1,0 +1,27 @@
+<h1><%= button_text %></h1>
+
+<%= flash_helper %>
+
+<form action='<%= url %>' method='post'>
+  <%= authorize_form %>
+  <label>username
+    <input
+      type='text'
+      name='user[username]'
+      value='<%= user.username %>'>
+  </label>
+  <br>
+  
+  <label>password
+    <input
+      type='password'
+      name='user[password]'
+      value='<%= user.password %>'>
+  </label>
+  <br>
+  
+  <input
+    type='submit'
+    value='<%= button_text %>'>
+  
+</form>

@@ -1,0 +1,7 @@
+<h1><%= @goal.title %></h1>
+
+Status: <%= @goal.completed ? "Completed" : "Incomplete" %>
+<br>
+<%= link_to "Edit", edit_goal_url(@goal) %>
+<br>
+<%= button_to "Delete", goal_url(@goal), method: :delete %>
