@@ -1,13 +1,14 @@
 class Goal < ActiveRecord::Base
   validates :title, :user, presence: true
-  validates :completed, inclusion: { in: [true, false] }
-  before_validation :ensure_completed
+  validates :completed, :private, inclusion: { in: [true, false] }
+  before_validation :ensure_completed_and_privacy
   
   belongs_to :user
   
   private
   
-  def ensure_completed
+  def ensure_completed_and_privacy
+    self.private ||= false
     self.completed ||= false
     true
   end

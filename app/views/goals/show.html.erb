@@ -2,6 +2,8 @@
 
 Status: <%= @goal.completed ? "Completed" : "Incomplete" %>
 <br>
-<%= link_to "Edit", edit_goal_url(@goal) %>
+<%= link_to "Goals", goals_url %>
 <br>
-<%= button_to "Delete", goal_url(@goal), method: :delete %>
+<%= link_to "Edit", edit_goal_url(@goal) if current_user.id == @goal.user_id%>
+<br>
+<%= button_to "Delete", goal_url(@goal), method: :delete if current_user.id == @goal.user_id%>

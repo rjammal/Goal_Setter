@@ -2,7 +2,7 @@ feature Goal do
   
   let!(:goal) do 
     user = User.create!(username: 'Daniel', password: 'password')
-    user.goals.create!(title: "gooooooooaaaaaalllll")
+    user.goals.create!(title: "gooooooooaaaaaalllll", private: false)
   end
   
   context "when logged in" do
@@ -18,12 +18,23 @@ feature Goal do
         expect(page).to have_content("Goals")
       end
       
-      it "shows only your own goals" do 
-        expect(page).to have_content("gooooooooaaaaaalllll")
-        user2 = User.create!(username: 'Rosemary', password: 'password')
-        user2.goals.create!(title: 'new goal')
-        visit goals_url
-        expect(page).to_not have_content('new goal')
+      context "public/private goals" do
+        before(:each) do
+          user2 = User.create!(username: 'Rosemary', password: 'password')
+          user2.goals.create!(title: 'private goal', private: true)
+          user2.goals.create!(title: 'new goal', private: false)
+          visit goals_url
+        end
+      
+        it "shows only your own goals and other's public goals" do 
+          expect(page).to have_content("gooooooooaaaaaalllll")
+          expect(page).to have_content('new goal')
+          
+        end
+        
+        it "does not show other users' private goals" do
+          expect(page).to_not have_content('private goal')
+        end
       end
       
       it "has a link to create a new Goal" do
@@ -78,6 +89,11 @@ feature Goal do
       
       it "shows the goal" do
         expect(page).to have_content(goal.title)
+      end
+      
+      it "should have a link to index" do
+        click_link("Goals")
+        expect(page).to have_content("Goals")
       end
       
       it "should have a link to edit" do

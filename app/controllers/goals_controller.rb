@@ -3,7 +3,7 @@ class GoalsController < ApplicationController
   before_action :must_be_logged_in
   
   def index
-    @goals = current_user.goals
+    @goals = Goal.where("user_id = #{current_user.id} OR private = ?", false)
   end
   
   def show
