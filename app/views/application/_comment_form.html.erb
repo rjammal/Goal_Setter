@@ -1,0 +1,39 @@
+<% if current_user == comment.author%>
+  <% delete_ok = true %>
+<% elsif comment_subject.is_a?(User) && comment_subject.id == current_user.id %>
+  <% delete_ok = true %>
+<% elsif comment_subject.is_a?(Goal) && comment_subject.user_id == current_user.id %>
+  <% delete_ok = true %>
+<% else %>
+  <% delete_ok = false %>
+<% end %>
+
+
+<h3>Comments</h3>
+
+<% comments.each do |comment| %>
+  <%= comment.body %>
+  <%= comment.author.username %>
+  <% if delete_ok %>
+    <% button_to "Delete", comment_url(comment), method: :delete, id: comment.id %>
+  <% end %>
+  <br>
+<% end %>  
+
+<%= flash_helper %>
+
+<form action='<%= url %>' method='post'>
+  <%= authorize_form %>
+  <label>Comment
+    <input
+      type='text'
+      name='comment[body]'>
+  </label>
+  <br>
+  
+  <br>
+  
+  <input
+    type='submit'
+    value='Add Comment'>
+</form>

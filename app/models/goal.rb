@@ -5,6 +5,13 @@ class Goal < ActiveRecord::Base
   
   belongs_to :user
   
+  has_many(
+  :comments,
+  foreign_key: :comment_subject,
+  primary_key: :id,
+  class_name:  "GoalComment"
+  )
+  
   private
   
   def ensure_completed_and_privacy
